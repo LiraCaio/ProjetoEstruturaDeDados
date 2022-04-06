@@ -1,5 +1,6 @@
 # Baralho = coleçao de cartas (lista de cartas)
 from Carta import Carta
+from PilhaEncadeada import *
 import random
 
 class BaralhoException(Exception):
@@ -11,11 +12,11 @@ class Baralho:
         self.baralho = list()
         naipe = ["Ouro",    "Espada","Paus","Copas"]
         cor =   ["vermelho","preto", "preto","vermelho"]
-        numeracao = ["As","2","3","4","5","6","7","8","9","10","valete","dama","rei"]
+        numeracao = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 
         for idx in range(len(naipe)):
             for id in numeracao:
-                self.baralho.append( Carta(id, naipe[idx], cor[idx] ))
+                self.baralho.empilha( Carta(id, naipe[idx], cor[idx] ))
     
         self.embaralhar()
         

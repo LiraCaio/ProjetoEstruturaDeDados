@@ -11,6 +11,7 @@ class Jogador:
         self.__nome = nome 
         self.__pontos = 0
         self.cartasDoJogador = Pilha()
+        self.montanteReserva = list()
 
     def __str__(self):
         return "Nome do jogador: " + self.__nome + "\n" + "Cartas: \n" + self.cartasDoJogador.__str__()
@@ -30,4 +31,11 @@ class Jogador:
     
     def empilha(self, valor):
         self.cartasDoJogador.empilha(valor)
+
+    def mostrarMontanteReserva(self):
+        print("[")
+        saida = ''
+        for carta in self.montanteReserva:
+            saida += carta.__str__() + ', '
+        print(']')
     

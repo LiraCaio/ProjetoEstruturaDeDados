@@ -1,10 +1,12 @@
 from PilhaEncadeada import Pilha
 from Jogador import Jogador
 from Baralho import Baralho
+import random
 
 
 baralho = Baralho()
-montante = list()
+montanteDeEmpate = list()
+
 
 #Placar da partida
 pontosDoJogador1 = 0
@@ -17,7 +19,7 @@ print("---------- Batalha ---------- \n")
 while (True):
     
 
-    
+    #Instanciando os dois jogadores
     print("Digite o nome do jogador 1")
     nomeDoJogador1 = input()
     jogador1 = Jogador(nomeDoJogador1)
@@ -28,24 +30,100 @@ while (True):
     jogador2 = Jogador(nomeDoJogador2)
     print()
 
+    
+    #Distribuindo as cartas
+    x = baralho.__len__() 
+    y = (x - 1) / 2
     n = 0
-    while(n <= 25):
+    while(n <= y):
         n += 1
         jogador1.cartasDoJogador.empilha(baralho.retirarCarta())
         jogador2.cartasDoJogador.empilha(baralho.retirarCarta())
 
-    while(contadorDeJogadas < 25):
-        print(f"Jogada #{contadorDeJogadas}: \n")
+    numero = 0
+    dicionario = {
+        "As": 1,
+        "Dama": 2,
+        "Rei": 3,
+        "Valete": 4
+    }
+
+    
+    while(contadorDeJogadas <= 25):
+        print()
+        print(f"Jogada #{contadorDeJogadas + 1}: \n")
 
         print(f"Carta do jogador(a) {jogador1.nome}: ")
-        print(jogador1.cartasDoJogador.desempilha())
-        print()
-        
-        print(f"Carta do jogador(a) {jogador2.nome}: ")
-        print(jogador2.cartasDoJogador.desempilha())
-        print()
+        cartaNaMaoDoJogador1 = jogador1.cartasDoJogador.desempilha() #Retira a carta da coleção do jogador e atribui a mao.
+        print(cartaNaMaoDoJogador1)
 
+        print(f"Carta do jogador(a) {jogador2.nome}: ")
+        cartaNaMaoDoJogador2 = jogador2.cartasDoJogador.desempilha()
+        print(cartaNaMaoDoJogador2)
+
+        numeroCartaNaMaoDoJogador1 = cartaNaMaoDoJogador1.numero #Recebe o numero da carta.
+        numeroCartaNaMaoDoJogador2 = cartaNaMaoDoJogador2.numero
+
+        
+
+        # Controle da pontuação por rodada e armazenamento nos montantes reservas.
+        if (numeroCartaNaMaoDoJogador1 > numeroCartaNaMaoDoJogador2 ):
+            pontosDoJogador1 += 1
+            jogador1.montanteReserva.append(cartaNaMaoDoJogador2) #Carta recebida em caso de vitoria vai para outro montante
+
+
+            print(f"PONTO PARA O JOGADOR {jogador1.nome}")
+            print(f"Cartas adquirida: ")
+            print(f"{cartaNaMaoDoJogador2}")
+
+            if(montanteDeEmpate != []):
+                for carta in montanteDeEmpate:
+                    print(carta.__str__(), sep="\n")
+            
+            jogador1.montanteReserva.append(montanteDeEmpate)
+            montanteDeEmpate.clear()
+            
+
+        elif (numeroCartaNaMaoDoJogador1 < numeroCartaNaMaoDoJogador2 ):
+            pontosDoJogador2 += 1
+            jogador2.montanteReserva.append(cartaNaMaoDoJogador1)
+
+            print(f"PONTO PARA O JOGADOR {jogador2.nome}")
+            print(f"Cartas adquirida: ")
+            print(f"{cartaNaMaoDoJogador1}")
+
+            if(montanteDeEmpate != []):
+                for carta in montanteDeEmpate:
+                    print(carta.__str__(), sep="\n")
+            
+            jogador2.montanteReserva.append(montanteDeEmpate)
+            montanteDeEmpate.clear()
+
+
+
+        # Caso haja empate, armazenaremos a carta para atribuição futura.
+        elif(numeroCartaNaMaoDoJogador1 == numeroCartaNaMaoDoJogador2):
+            montanteDeEmpate.append(cartaNaMaoDoJogador1)
+            montanteDeEmpate.append(cartaNaMaoDoJogador2)
+
+            for x in range(len(montanteDeEmpate)):
+                print(montanteDeEmpate[x] , sep="\n")
+
+        print(f"--------- PLACAR DA RODADA ---------")
+        print(f"{pontosDoJogador1} x {pontosDoJogador2}")
+
+        if(jogador1.cartasDoJogador.estaVazia()):
+            for carta in jogador1.montanteReserva: 
+                random.shuffle(jogador1.montanteReserva)
+                jogador1.cartasDoJogador.empilha(carta)
+                
+
+        elif(jogador2.cartasDoJogador.estaVazia()):
+            for carta in jogador1.montanteReserva:
+                random.shuffle(jogador2.montanteReserva)     
+                jogador2.cartasDoJogador.empilha(carta)
         contadorDeJogadas += 1
+
     
 
 
