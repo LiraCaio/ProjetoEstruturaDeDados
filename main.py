@@ -4,20 +4,16 @@ from Baralho import Baralho
 import random
 
 
-baralho = Baralho()
-montanteDeEmpate = list()
 
-
-#Placar da partida
-pontosDoJogador1 = 0
-pontosDoJogador2 = 0
-contadorDeJogadas = 0
 
 print("---------- Batalha ---------- \n")
 
 #Loop principal
 while (True):
     
+    contadorDeJogadas = 0
+    baralho = Baralho()
+    montanteDeEmpate = list()
 
     #Instanciando os dois jogadores
     print("Digite o nome do jogador 1")
@@ -51,15 +47,17 @@ while (True):
     
     while(contadorDeJogadas <= 25):
         print()
-        print(f"Jogada #{contadorDeJogadas + 1}: \n")
+        print(f"------------------- Jogada #{contadorDeJogadas + 1}: --------------------\n")
 
         print(f"Carta do jogador(a) {jogador1.nome}: ")
         cartaNaMaoDoJogador1 = jogador1.cartasDoJogador.desempilha() #Retira a carta da coleção do jogador e atribui a mao.
         print(cartaNaMaoDoJogador1)
+        print()
 
         print(f"Carta do jogador(a) {jogador2.nome}: ")
         cartaNaMaoDoJogador2 = jogador2.cartasDoJogador.desempilha()
         print(cartaNaMaoDoJogador2)
+        print()
 
         numeroCartaNaMaoDoJogador1 = cartaNaMaoDoJogador1.numero #Recebe o numero da carta.
         numeroCartaNaMaoDoJogador2 = cartaNaMaoDoJogador2.numero
@@ -68,13 +66,14 @@ while (True):
 
         # Controle da pontuação por rodada e armazenamento nos montantes reservas.
         if (numeroCartaNaMaoDoJogador1 > numeroCartaNaMaoDoJogador2 ):
-            pontosDoJogador1 += 1
+            jogador1.pontos += 1
             jogador1.montanteReserva.append(cartaNaMaoDoJogador2) #Carta recebida em caso de vitoria vai para outro montante
 
 
             print(f"PONTO PARA O JOGADOR {jogador1.nome}")
             print(f"Cartas adquirida: ")
             print(f"{cartaNaMaoDoJogador2}")
+            print()
 
             if(montanteDeEmpate != []):
                 for carta in montanteDeEmpate:
@@ -85,12 +84,14 @@ while (True):
             
 
         elif (numeroCartaNaMaoDoJogador1 < numeroCartaNaMaoDoJogador2 ):
-            pontosDoJogador2 += 1
+            jogador2.pontos += 1
             jogador2.montanteReserva.append(cartaNaMaoDoJogador1)
 
             print(f"PONTO PARA O JOGADOR {jogador2.nome}")
             print(f"Cartas adquirida: ")
             print(f"{cartaNaMaoDoJogador1}")
+            print()
+
 
             if(montanteDeEmpate != []):
                 for carta in montanteDeEmpate:
@@ -110,7 +111,7 @@ while (True):
                 print(montanteDeEmpate[x] , sep="\n")
 
         print(f"--------- PLACAR DA RODADA ---------")
-        print(f"{pontosDoJogador1} x {pontosDoJogador2}")
+        print(f"{jogador1.pontos} x {jogador2.pontos}")
 
         if(jogador1.cartasDoJogador.estaVazia()):
             for carta in jogador1.montanteReserva: 
@@ -124,7 +125,14 @@ while (True):
                 jogador2.cartasDoJogador.empilha(carta)
         contadorDeJogadas += 1
 
+    #Verifica se o usuário gostaria de jogar novamente.
+    print()
+    print("Deseja jogar novamente? (s/n)")
+    jogarNovamente = input()
     
+
+    if (jogarNovamente.upper() == 'N'):
+        break
 
 
 

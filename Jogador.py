@@ -9,7 +9,7 @@ class BaralhoException(Exception):
 class Jogador:
     def __init__(self, nome):
         self.__nome = nome 
-        self.__pontos = 0
+        self.pontos = 0
         self.cartasDoJogador = Pilha()
         self.montanteReserva = list()
 
