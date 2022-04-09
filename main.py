@@ -116,9 +116,10 @@ while (True):
 
         if(jogador2.cartasDoJogador.estaVazia()):
             for carta in jogador1.montanteReserva:
-                random.shuffle(jogador2.montanteReserva)     
+                random.shuffle(jogador2.montanteReserva)
                 jogador2.cartasDoJogador.empilha(carta)
         contadorDeJogadas += 1
+        input("Pressione qualquer botão para seguir") #pausa para próxima rodada
 
     #Verifica se o usuário gostaria de jogar novamente.
     print()

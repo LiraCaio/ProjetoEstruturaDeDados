@@ -33,7 +33,7 @@ class Jogador:
         self.cartasDoJogador.empilha(valor)
 
     def mostrarMontanteReserva(self):
-        print("[")
+        print("[") ### RETIRAR OS PRINTS
         saida = ''
         for carta in self.montanteReserva:
             saida += carta.__str__() + ', '

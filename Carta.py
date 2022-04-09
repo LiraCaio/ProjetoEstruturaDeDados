@@ -11,8 +11,6 @@ class Carta:
     @property
     def numero(self):
         return self.__numero
-
-
     
     def __str__(self): # todas as informacoes da carta
         return f'{self.__numero} de {self.__naipe}'
